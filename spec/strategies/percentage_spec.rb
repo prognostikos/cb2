@@ -11,24 +11,6 @@ describe CB2::RollingWindow do
 
   let(:strategy) { breaker.strategy }
 
-  describe "#open?" do
-    it "starts closed" do
-      refute breaker.open?
-    end
-
-    it "checks in redis" do
-      redis.set(strategy.key, 1)
-      assert breaker.open?
-    end
-  end
-
-  describe "#open!" do
-    it "sets a key in redis with corresponding expiration" do
-      strategy.open!
-      assert_equal 600, redis.ttl(strategy.key)
-    end
-  end
-
   describe "#error" do
     before { @t = Time.now }
 
