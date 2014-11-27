@@ -20,7 +20,7 @@ Instantiate a circuit breaker:
 ```ruby
 breaker = CB2::Breaker.new(
   duration: 60,        # keep track of errors over a 1min window
-  threshold: 5,        # open the circuit breaker on 5 errors
+  threshold: 5,        # open the circuit breaker after 5 errors
   reenable_after: 600) # keep it open for 10mins
 ```
 
