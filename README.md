@@ -2,20 +2,18 @@
 
 Implementation of the [circuit breaker pattern](http://martinfowler.com/bliki/CircuitBreaker.html) in Ruby, backed by Redis.
 
-The basic idea is to add circuit breakers around external service calls. When one of these services becomes unavailable the circuit breaker opens, causing additional requests to it to fail fast. After a specific window of time the breaker closes again, allowing requests to that service to go through.
+Setup circuit breakers wrapping external service calls, be it HTTP, TCP, etc. When a service becomes unavailable the circuit breaker will open and quickly refuse any additional requests to it. After a specific window the breaker closes again, allowing calls to go through.
 
-This benefits both sides:
+Benefits:
 
 - Your application becomes more resilient to third party failures, because it won't exhaust resources trying to make calls to an unresponsive service. This is particularly relevant to apps running on servers susceptible to request queuing, like Unicorn or Puma.
 
-- External services having availability issues will stop receiving calls, which could otherwise make the issues worse.
+- Help services you depend on to recover from failures faster by reducing the load on them.
+
+CB2 tracks errors over a rolling window of time (size configurable), and opens after the error rate hits a certain percentage.
+
 
 [![Build Status](https://travis-ci.org/pedro/cb2.svg?branch=master)](https://travis-ci.org/pedro/cb2)
-
-
-## Details
-
-The default circuit breaker provided by CB2 keeps errors over a rolling window of time (size configurable), and opens after a certain error percentage.
 
 
 ## Usage
@@ -24,13 +22,14 @@ Instantiate a circuit breaker:
 
 ```ruby
 breaker = CB2::Breaker.new(
+  service: "aws"       # identify each circuit breaker individually
   duration: 60,        # keep track of errors over a 1 min window
   threshold: 5,        # open the circuit breaker when error rate is at 5%
   reenable_after: 600, # keep it open for 10 mins
   redis: Redis.new)    # redis connection it should use to keep state
 ```
 
-Then encapsulate your API calls through it:
+Then wrap service calls with it:
 
 ```ruby
 breaker.run do
@@ -38,7 +37,7 @@ breaker.run do
 end
 ```
 
-If that method starts to throw exceptions the breaker may eventually open. Rescue these exeptions to react accordingly:
+The breaker will open when that block raises enough exceptions to trigger the threshold. Handle these exceptions to react accordingly:
 
 ```ruby
 begin
@@ -46,23 +45,13 @@ begin
     some_api_request()
   end
 rescue CB2::BreakerOpen
-  alternate_response() # use cached data, or raise a user-friendly exception
+  alternate_response() # fallback to cached data, or raise a user-friendly exception
 end
-```
-
-### Multiple services
-
-Use a circuit breaker for each service you consume. Identify them like:
-
-```ruby
-aws_breaker = CB2::Breaker.new(
-  service "aws", # any service name
-  # ...
 ```
 
 ### Circuit breaker stub
 
-CB2 comes with a stub breaker to aid tests, simulations and gradual rollouts:
+CB2 can also run as a stub. Use it to aid testing, simulations and gradual rollouts:
 
 ```ruby
 breaker = CB2::Breaker.new(
