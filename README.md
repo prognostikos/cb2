@@ -13,6 +13,11 @@ This benefits both sides:
 [![Build Status](https://travis-ci.org/pedro/cb2.svg?branch=master)](https://travis-ci.org/pedro/cb2)
 
 
+## Details
+
+The default circuit breaker provided by CB2 keeps errors over a rolling window of time (size configurable), and opens after a certain error percentage.
+
+
 ## Usage
 
 Instantiate a circuit breaker:
