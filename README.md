@@ -37,7 +37,7 @@ begin
   breaker.run do
     some_api_request()
   end
-rescue CB2::Error
+rescue CB2::BreakerOpen
   alternate_response() # use cached data, or raise a user-friendly exception
 end
 ```

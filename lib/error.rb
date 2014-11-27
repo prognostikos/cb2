@@ -1,4 +1,4 @@
 module CB2
-  class Error < StandardError
+  class BreakerOpen < StandardError
   end
 end

@@ -8,7 +8,7 @@ class CB2::Breaker
 
   def run
     if open?
-      raise CB2::Error
+      raise CB2::BreakerOpen
     end
 
     begin
