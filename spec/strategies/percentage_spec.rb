@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe CB2::RollingWindow do
+describe CB2::Percentage do
   let(:breaker) do
     CB2::Breaker.new(
       strategy:  :percentage,
