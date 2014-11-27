@@ -43,3 +43,13 @@ rescue CB2::BreakerOpen
   alternate_response() # use cached data, or raise a user-friendly exception
 end
 ```
+
+### Multiple services
+
+Use a circuit breaker for each service you consume. Identify them like:
+
+```ruby
+aws_breaker = CB2::Breaker.new(
+  service "aws", # any service name
+  # ...
+```
