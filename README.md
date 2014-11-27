@@ -12,6 +12,8 @@ Benefits:
 
 CB2 tracks errors over a rolling window of time (size configurable), and opens after the error rate hits a certain percentage.
 
+Currently it doesn't implement the "half-open" state.
+
 
 [![Build Status](https://travis-ci.org/pedro/cb2.svg?branch=master)](https://travis-ci.org/pedro/cb2)
 
@@ -59,3 +61,10 @@ breaker = CB2::Breaker.new(
   allow: true) # set it to false to always block requests
 ```
 
+## See also
+
+This might be the only percent-based breaker in Ruby so far. For count-based breakers (eg: open after X exceptions) you can also check [breaker_box](https://github.com/sittercity/breaker_box) and [circuit_breaker](https://github.com/wsargent/circuit_breaker).
+
+## Meta
+
+Created by Pedro Belo.
