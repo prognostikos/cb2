@@ -13,19 +13,32 @@ describe CB2::RollingWindow do
 
   describe "#open?" do
     it "starts closed" do
-      refute breaker.open?
+      refute strategy.open?
     end
 
     it "checks in redis" do
-      redis.set(strategy.key, 1)
-      assert breaker.open?
+      redis.set(strategy.key, Time.now.to_i)
+      assert strategy.open?
+    end
+  end
+
+  describe "#half_open?" do
+    it "indicates the circuit was opened but we're past the time to re-enable it" do
+      redis.set(strategy.key, Time.now.to_i - 601)
+      assert strategy.half_open?
+    end
+
+    it "is not half_open when the circuit is opened" do
+      redis.set(strategy.key, Time.now.to_i - 599)
+      refute strategy.half_open?
     end
   end
 
   describe "#open!" do
-    it "sets a key in redis with corresponding expiration" do
-      strategy.open!
-      assert_equal 600, redis.ttl(strategy.key)
+    it "sets a key in redis with the time the circuit was opened" do
+      t = Time.now
+      Timecop.freeze(t) { strategy.open! }
+      assert_equal t.to_i, redis.get(strategy.key).to_i
     end
   end
 
@@ -34,7 +47,13 @@ describe CB2::RollingWindow do
 
     it "opens the circuit when we hit the threshold" do
       5.times { strategy.error }
-      assert breaker.open?
+      assert strategy.open?
+    end
+
+    it "opens the circuit right away when half open" do
+      redis.set(strategy.key, Time.now.to_i - 601) # set as half open
+      strategy.error
+      assert strategy.open?
     end
 
     it "trims the window" do
@@ -43,7 +62,7 @@ describe CB2::RollingWindow do
       end
       Timecop.freeze do
         strategy.error
-        refute breaker.open?
+        refute strategy.open?
       end
     end
   end

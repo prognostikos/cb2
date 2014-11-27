@@ -10,16 +10,25 @@ class CB2::RollingWindow
   end
 
   def open?
-    redis.exists(key)
+    last_open && last_open.to_i > (Time.now.to_i - reenable_after)
   end
 
   def open!
-    redis.setex(key, reenable_after, 1)
+    @last_open = Time.now.to_i
+    redis.set(key, @last_open)
+  end
+
+  def half_open?
+    last_open && last_open.to_i < (Time.now.to_i - reenable_after)
+  end
+
+  def last_open
+    @last_open ||= redis.get(key)
   end
 
   def error
     count = increment_rolling_window(key("error"))
-    if should_open?(count)
+    if half_open? || should_open?(count)
       open!
     end
   end

@@ -12,10 +12,10 @@ class CB2::Breaker
     end
 
     begin
-      count_request
+      process_count
       yield
     rescue => e
-      count_error
+      process_error
       raise e
     end
   end
@@ -24,11 +24,11 @@ class CB2::Breaker
     strategy.open?
   end
 
-  def count_request
+  def process_count
     strategy.count if strategy.respond_to?(:count)
   end
 
-  def count_error
+  def process_error
     strategy.error if strategy.respond_to?(:error)
   end
 
