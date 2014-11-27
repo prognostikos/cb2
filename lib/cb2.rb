@@ -3,7 +3,7 @@ require "redis"
 module CB2
 end
 
-require "breaker"
-require "error"
-require "strategies/rolling_window"
-require "strategies/stub"
+require "cb2/breaker"
+require "cb2/error"
+require "cb2/strategies/rolling_window"
+require "cb2/strategies/stub"
