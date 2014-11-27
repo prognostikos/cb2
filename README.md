@@ -10,6 +10,8 @@ This benefits both sides:
 
 - External services having availability issues will stop receiving calls, which could otherwise make the issues worse.
 
+[![Build Status](https://travis-ci.org/pedro/cb2.svg?branch=master)](https://travis-ci.org/pedro/cb2)
+
 
 ## Usage
 
