@@ -8,10 +8,4 @@ class CB2::Stub
   def open?
     !allow
   end
-
-  def count
-  end
-
-  def error
-  end
 end

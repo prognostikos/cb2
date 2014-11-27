@@ -12,16 +12,24 @@ class CB2::Breaker
     end
 
     begin
-      strategy.count
+      count_request
       yield
     rescue => e
-      strategy.error
+      count_error
       raise e
     end
   end
 
   def open?
     strategy.open?
+  end
+
+  def count_request
+    strategy.count if strategy.respond_to?(:count)
+  end
+
+  def count_error
+    strategy.error if strategy.respond_to?(:error)
   end
 
   def initialize_strategy(options)

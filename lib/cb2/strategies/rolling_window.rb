@@ -17,9 +17,6 @@ class CB2::RollingWindow
     redis.setex(key, reenable_after, 1)
   end
 
-  def count
-  end
-
   def error
     count = increment_rolling_window(key("error"))
     if should_open?(count)
