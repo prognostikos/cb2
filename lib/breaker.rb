@@ -3,7 +3,7 @@ class CB2::Breaker
 
   def initialize(options)
     @service  = options[:service] || "default"
-    @strategy = CB2::Stub.new(options)
+    @strategy = initialize_strategy(options)
   end
 
   def run
@@ -14,12 +14,27 @@ class CB2::Breaker
     begin
       yield
     rescue => e
-      strategy.process(e)
+      strategy.process
       raise e
     end
   end
 
   def open?
     strategy.open?
+  end
+
+  def initialize_strategy(options)
+    strategy_options = options.dup.merge(service: self.service)
+
+    if options[:strategy].respond_to?(:open)
+      return options[:strategy].new(strategy_options)
+    end
+
+    case options[:strategy]
+    when nil, :stub
+      CB2::Stub.new(strategy_options)
+    when :rolling_window
+      CB2::RollingWindow.new(strategy_options)
+    end
   end
 end

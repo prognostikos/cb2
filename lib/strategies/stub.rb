@@ -9,6 +9,6 @@ class CB2::Stub
     !allow
   end
 
-  def process(e)
+  def process
   end
 end
