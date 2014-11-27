@@ -31,10 +31,10 @@ class CB2::Breaker
     end
 
     case options[:strategy]
+    when nil, :rolling_window
+      CB2::RollingWindow.new(strategy_options)
     when nil, :stub
       CB2::Stub.new(strategy_options)
-    when :rolling_window
-      CB2::RollingWindow.new(strategy_options)
     end
   end
 end
