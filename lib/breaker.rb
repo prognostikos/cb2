@@ -30,10 +30,10 @@ class CB2::Breaker
       return options[:strategy].new(strategy_options)
     end
 
-    case options[:strategy]
-    when nil, :rolling_window
+    case options[:strategy].to_s
+    when "", "rolling_window"
       CB2::RollingWindow.new(strategy_options)
-    when nil, :stub
+    when "stub"
       CB2::Stub.new(strategy_options)
     end
   end

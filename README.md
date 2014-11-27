@@ -53,3 +53,14 @@ aws_breaker = CB2::Breaker.new(
   service "aws", # any service name
   # ...
 ```
+
+### Circuit breaker stub
+
+CB2 comes with a stub breaker to aid tests, simulations and gradual rollouts:
+
+```ruby
+breaker = CB2::Breaker.new(
+  strategy: "stub",
+  allow: true) # set it to false to always block requests
+```
+
