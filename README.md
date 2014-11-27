@@ -4,11 +4,7 @@ Implementation of the [circuit breaker pattern](http://martinfowler.com/bliki/Ci
 
 Setup circuit breakers wrapping external service calls, be it HTTP, TCP, etc. When a service becomes unavailable the circuit breaker will open and quickly refuse any additional requests to it. After a specific window the breaker closes again, allowing calls to go through.
 
-Benefits:
-
-- Your application becomes more resilient to third party failures, because it won't exhaust resources trying to make calls to an unresponsive service. This is particularly relevant to apps running on servers susceptible to request queuing, like Unicorn or Puma.
-
-- Help services you depend on to recover from failures faster by reducing the load on them.
+This pattern makes your application more resilient to third party failures, because it won't exhaust resources trying to make calls to an unresponsive service. This is particularly relevant to apps running on servers susceptible to request queuing, like Unicorn or Puma. It can also help the services you depend on to recover faster, by reducing the load on them.
 
 CB2 tracks errors over a rolling window of time (size configurable), and opens after the error rate hits a certain percentage.
 
