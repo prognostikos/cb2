@@ -17,7 +17,7 @@ describe CB2::RollingWindow do
     end
 
     it "checks in redis" do
-      redis.set("circuit-breaker-default", 1)
+      redis.set(strategy.key, 1)
       assert breaker.open?
     end
   end
@@ -25,7 +25,7 @@ describe CB2::RollingWindow do
   describe "#open!" do
     it "sets a key in redis with corresponding expiration" do
       strategy.open!
-      assert_equal 600, redis.ttl("circuit-breaker-default")
+      assert_equal 600, redis.ttl(strategy.key)
     end
   end
 

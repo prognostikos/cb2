@@ -10,28 +10,30 @@ class CB2::RollingWindow
   end
 
   def open?
-    redis.exists(cache_key)
+    redis.exists(key)
   end
 
   def open!
-    redis.setex(cache_key, reenable_after, 1)
+    redis.setex(key, reenable_after, 1)
   end
 
   def count
   end
 
   def error
-    count = increment_rolling_window("circuit-breaker-error-#{service}")
+    count = increment_rolling_window(key("error"))
     if should_open?(count)
       open!
     end
   end
 
-  protected
-
-  def cache_key
-    "circuit-breaker-#{service}"
+  # generate a key to use in redis
+  def key(id=nil)
+    postfix = id ? "-#{id}" : ""
+    "cb2-#{service}#{postfix}"
   end
+
+  protected
 
   def increment_rolling_window(key)
     t   = Time.now.to_i
@@ -44,7 +46,7 @@ class CB2::RollingWindow
       redis.zcard(key)
     end
     return pipeline.last # return the count
-  end    
+  end
 
   def should_open?(error_count)
     error_count >= threshold

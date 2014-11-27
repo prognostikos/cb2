@@ -1,7 +1,7 @@
 class CB2::Percentage < CB2::RollingWindow
   # keep a rolling window of successful calls too
   def count
-    @current_count = increment_rolling_window("circuit-breaker-count-#{service}")
+    @current_count = increment_rolling_window(key("count"))
   end
 
   private
