@@ -19,9 +19,9 @@ Instantiate a circuit breaker:
 
 ```ruby
 breaker = CB2::Breaker.new(
-  duration: 60,        # keep track of errors over a 1min window
+  duration: 60,        # keep track of errors over a 1 min window
   threshold: 5,        # open the circuit breaker when error rate is at 5%
-  reenable_after: 600, # keep it open for 10mins
+  reenable_after: 600, # keep it open for 10 mins
   redis: Redis.new)    # redis connection it should use to keep state
 ```
 
