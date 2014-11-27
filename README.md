@@ -6,10 +6,7 @@ Setup circuit breakers wrapping external service calls, be it HTTP, TCP, etc. Wh
 
 This pattern makes your application more resilient to third party failures, because it won't exhaust resources trying to make calls to an unresponsive service. This is particularly relevant to apps running on servers susceptible to request queuing, like Unicorn or Puma. It can also help the services you depend on to recover faster, by reducing the load on them.
 
-CB2 tracks errors over a rolling window of time (size configurable), and opens after the error rate hits a certain percentage.
-
-Currently it doesn't implement the "half-open" state.
-
+CB2 tracks errors over a rolling window of time (size configurable), and opens after the error rate hits a certain percentage. The circuit stays open (rejecting calls) for another specified period, and then from there it goes to the half-open state: in which a succesful request will make it to go back to closed, but a failure will put it immediatelly back at the closed state. [Martin Fowler has a nice diagram to further explain these states](http://martinfowler.com/bliki/CircuitBreaker.html).
 
 [![Build Status](https://travis-ci.org/pedro/cb2.svg?branch=master)](https://travis-ci.org/pedro/cb2)
 
