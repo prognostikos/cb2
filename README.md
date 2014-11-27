@@ -25,5 +25,19 @@ breaker = CB2::Breaker.new(
 Then encapsulate your API calls through it:
 
 ```ruby
-breaker.run { some_api_request() }
+breaker.run do
+  some_api_request()
+end
+```
+
+If that method starts to throw exceptions the breaker may eventually open. Rescue these exeptions to react accordingly:
+
+```ruby
+begin
+  breaker.run do
+    some_api_request()
+  end
+rescue CB2::Error
+  alternate_response() # use cached data, or raise a user-friendly exception
+end
 ```
