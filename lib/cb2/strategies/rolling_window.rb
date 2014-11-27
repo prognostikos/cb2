@@ -6,7 +6,7 @@ class CB2::RollingWindow
     @duration       = options.fetch(:duration)
     @threshold      = options.fetch(:threshold)
     @reenable_after = options.fetch(:reenable_after)
-    @redis          = Redis.current
+    @redis          = options[:redis] || Redis.current
   end
 
   def open?
