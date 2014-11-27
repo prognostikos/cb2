@@ -17,8 +17,23 @@ class CB2::RollingWindow
     redis.setex(cache_key, reenable_after, 1)
   end
 
-  def process
-    key = "circuit-breaker-count-#{service}"
+  def count
+  end
+
+  def error
+    count = increment_rolling_window("circuit-breaker-error-#{service}")
+    if should_open?(count)
+      open!
+    end
+  end
+
+  protected
+
+  def cache_key
+    "circuit-breaker-#{service}"
+  end
+
+  def increment_rolling_window(key)
     t   = Time.now.to_i
     pipeline = redis.pipelined do
       # keep the sorted set clean
@@ -28,14 +43,10 @@ class CB2::RollingWindow
       # just count how many errors are left in the set
       redis.zcard(key)
     end
-    if pipeline.last >= threshold
-      open!
-    end
-  end
+    return pipeline.last # return the count
+  end    
 
-  private
-
-  def cache_key
-    "circuit-breaker-#{service}"
+  def should_open?(error_count)
+    error_count >= threshold
   end
 end

@@ -12,9 +12,10 @@ class CB2::Breaker
     end
 
     begin
+      strategy.count
       yield
     rescue => e
-      strategy.process
+      strategy.error
       raise e
     end
   end
@@ -31,7 +32,9 @@ class CB2::Breaker
     end
 
     case options[:strategy].to_s
-    when "", "rolling_window"
+    when "", "percentage"
+      CB2::Percentage.new(strategy_options)
+    when "rolling_window"
       CB2::RollingWindow.new(strategy_options)
     when "stub"
       CB2::Stub.new(strategy_options)

@@ -9,6 +9,9 @@ class CB2::Stub
     !allow
   end
 
-  def process
+  def count
+  end
+
+  def error
   end
 end
