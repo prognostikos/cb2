@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "redis", "~> 3.1"
   s.add_development_dependency "rake",    "> 0"
+  s.add_development_dependency "rr",      "~> 1.1"
   s.add_development_dependency "rspec",   "~> 3.1"
   s.add_development_dependency "timecop", "~> 0.7"
 end

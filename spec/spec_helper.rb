@@ -7,6 +7,7 @@ require "cb2"
 
 RSpec.configure do |config|
   config.expect_with :minitest
+  config.mock_with :rr
 
   config.before(:each) do
     redis.flushdb
