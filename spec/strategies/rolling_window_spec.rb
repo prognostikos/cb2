@@ -23,12 +23,12 @@ describe CB2::RollingWindow do
   end
 
   describe "#half_open?" do
-    it "indicates the circuit was opened but we're past the time to re-enable it" do
+    it "indicates the circuit was opened, but is ready to enable calls again" do
       redis.set(strategy.key, Time.now.to_i - 601)
       assert strategy.half_open?
     end
 
-    it "is not half_open when the circuit is opened" do
+    it "is not half_open when the circuit is just open (before time reenable_after time)" do
       redis.set(strategy.key, Time.now.to_i - 599)
       refute strategy.half_open?
     end
