@@ -22,7 +22,7 @@ class CB2::RollingWindow
     @last_open ||= redis.get(key)
   end
 
-  def count
+  def success
     if half_open?
       reset!
     end

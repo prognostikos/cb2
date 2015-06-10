@@ -14,6 +14,7 @@ class CB2::Breaker
     begin
       process_count
       ret = yield
+      process_success
     rescue => e
       process_error
       raise e
@@ -30,6 +31,11 @@ class CB2::Breaker
 
   def process_count
     strategy.count if strategy.respond_to?(:count)
+  rescue Redis::BaseError
+  end
+
+  def process_success
+    strategy.success if strategy.respond_to?(:success)
   rescue Redis::BaseError
   end
 

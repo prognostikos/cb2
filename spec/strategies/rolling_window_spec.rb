@@ -47,10 +47,10 @@ describe CB2::RollingWindow do
     end
   end
 
-  describe "#count" do
+  describe "#success" do
     it "resets the counter so half open breakers go back to closed" do
       redis.set(strategy.key, Time.now.to_i - 601)
-      strategy.count
+      strategy.success
       assert_equal nil, redis.get(strategy.key)
     end
   end
