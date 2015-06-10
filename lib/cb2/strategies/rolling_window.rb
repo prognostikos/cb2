@@ -21,11 +21,26 @@ class CB2::RollingWindow
     @last_open ||= redis.get(key)
   end
 
+  def count
+    if half_open?
+      reset!
+    else
+      @last_open = nil # clear the cache so we'll fetch again next time
+    end
+  end
+
   def error
     count = increment_rolling_window(key("error"))
     if half_open? || should_open?(count)
       trip!
+    else
+      @last_open = nil # clear the cache so we'll fetch again next time
     end
+  end
+
+  def reset!
+    @last_open = nil
+    redis.del(key)
   end
 
   def trip!

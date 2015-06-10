@@ -2,6 +2,7 @@ class CB2::Percentage < CB2::RollingWindow
   # keep a rolling window of successful calls too
   def count
     @current_count = increment_rolling_window(key("count"))
+    super
   end
 
   private
