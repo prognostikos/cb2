@@ -34,10 +34,10 @@ describe CB2::RollingWindow do
     end
   end
 
-  describe "#open!" do
+  describe "#trip!" do
     it "sets a key in redis with the time the circuit was opened" do
       t = Time.now
-      Timecop.freeze(t) { strategy.open! }
+      Timecop.freeze(t) { strategy.trip! }
       assert_equal t.to_i, redis.get(strategy.key).to_i
     end
   end

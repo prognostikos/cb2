@@ -13,11 +13,6 @@ class CB2::RollingWindow
     last_open && last_open.to_i > (Time.now.to_i - reenable_after)
   end
 
-  def open!
-    @last_open = Time.now.to_i
-    redis.set(key, @last_open)
-  end
-
   def half_open?
     last_open && last_open.to_i < (Time.now.to_i - reenable_after)
   end
@@ -29,8 +24,13 @@ class CB2::RollingWindow
   def error
     count = increment_rolling_window(key("error"))
     if half_open? || should_open?(count)
-      open!
+      trip!
     end
+  end
+
+  def trip!
+    @last_open = Time.now.to_i
+    redis.set(key, @last_open)
   end
 
   # generate a key to use in redis
