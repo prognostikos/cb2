@@ -13,6 +13,11 @@ describe CB2::Breaker do
         breaker.run { 1+1 }
       end
     end
+
+    it "returns the original value" do
+      breaker.strategy.allow = true
+      assert_equal 42, breaker.run { 42 }
+    end
   end
 
   describe "#open?" do

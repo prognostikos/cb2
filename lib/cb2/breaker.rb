@@ -13,11 +13,13 @@ class CB2::Breaker
 
     begin
       process_count
-      yield
+      ret = yield
     rescue => e
       process_error
       raise e
     end
+
+    return ret
   end
 
   def open?
