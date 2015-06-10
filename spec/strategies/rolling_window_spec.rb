@@ -20,6 +20,11 @@ describe CB2::RollingWindow do
       redis.set(strategy.key, Time.now.to_i)
       assert strategy.open?
     end
+
+    it "closes again after the specified window" do
+      redis.set(strategy.key, Time.now.to_i - 601)
+      refute strategy.open?
+    end
   end
 
   describe "#half_open?" do
