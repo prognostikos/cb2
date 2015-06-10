@@ -10,6 +10,7 @@ class CB2::RollingWindow
   end
 
   def open?
+    @last_open = nil # always fetch the latest value from redis here
     last_open && last_open.to_i > (Time.now.to_i - reenable_after)
   end
 
@@ -24,8 +25,6 @@ class CB2::RollingWindow
   def count
     if half_open?
       reset!
-    else
-      @last_open = nil # clear the cache so we'll fetch again next time
     end
   end
 
@@ -33,8 +32,6 @@ class CB2::RollingWindow
     count = increment_rolling_window(key("error"))
     if half_open? || should_open?(count)
       trip!
-    else
-      @last_open = nil # clear the cache so we'll fetch again next time
     end
   end
 
