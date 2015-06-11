@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cb2 (0.0.2)
+    cb2 (0.0.3)
       redis (~> 3.1)
 
 GEM
@@ -9,7 +9,7 @@ GEM
   specs:
     diff-lcs (1.2.5)
     rake (10.3.2)
-    redis (3.1.0)
+    redis (3.2.0)
     rr (1.1.2)
     rspec (3.1.0)
       rspec-core (~> 3.1.0)
