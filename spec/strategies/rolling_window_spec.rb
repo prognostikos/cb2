@@ -79,4 +79,14 @@ describe CB2::RollingWindow do
       end
     end
   end
+
+  describe "#reset_all!" do
+    it "deletes the keys" do
+      5.times { strategy.error }
+      strategy.reset_all!
+      assert_equal false, redis.exists(strategy.key)
+      assert_equal false, redis.exists(strategy.key('error'))
+      assert_equal false, redis.exists(strategy.key('success'))
+    end
+  end
 end
