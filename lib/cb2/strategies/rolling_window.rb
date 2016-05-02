@@ -51,6 +51,12 @@ class CB2::RollingWindow
     "cb2-#{service}#{postfix}"
   end
 
+  def reset_all!
+    reset!
+    redis.del(key('error'))
+    redis.del(key('success'))
+  end
+
   protected
 
   def increment_rolling_window(key)
