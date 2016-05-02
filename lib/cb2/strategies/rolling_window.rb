@@ -1,16 +1,18 @@
-class CB2::RollingWindow
-  attr_accessor :service, :duration, :threshold, :reenable_after, :redis
+require "cb2/strategies/base"
+
+class CB2::RollingWindow < CB2::Strategies::Base
+  attr_accessor :service, :duration, :threshold, :reenable_after, :backend
 
   def initialize(options)
     @service        = options.fetch(:service)
     @duration       = options.fetch(:duration)
     @threshold      = options.fetch(:threshold)
     @reenable_after = options.fetch(:reenable_after)
-    @redis          = options[:redis] || Redis.current
+    @backend          = options[:backend] || CB2.backend
   end
 
   def open?
-    @last_open = nil # always fetch the latest value from redis here
+    @last_open = nil # always fetch the latest value from backend here
     last_open && last_open.to_i > (Time.now.to_i - reenable_after)
   end
 
@@ -19,7 +21,7 @@ class CB2::RollingWindow
   end
 
   def last_open
-    @last_open ||= redis.get(key)
+    @last_open ||= backend.get(key)
   end
 
   def success
@@ -37,15 +39,15 @@ class CB2::RollingWindow
 
   def reset!
     @last_open = nil
-    redis.del(key)
+    backend.delete(key)
   end
 
   def trip!
     @last_open = Time.now.to_i
-    redis.set(key, @last_open)
+    backend.set(key, @last_open)
   end
 
-  # generate a key to use in redis
+  # generate a key to use in backend
   def key(id=nil)
     postfix = id ? "-#{id}" : ""
     "cb2-#{service}#{postfix}"
@@ -54,16 +56,15 @@ class CB2::RollingWindow
   protected
 
   def increment_rolling_window(key)
-    t   = Time.now.to_i
-    pipeline = redis.pipelined do
+    t = Time.now.to_i
+    backend.atomic do
       # keep the sorted set clean
-      redis.zremrangebyscore(key, "-inf", t - duration)
+      backend.remove_range(key, nil, t - duration)
       # add as a random uuid because sorted sets won't take duplicate items:
-      redis.zadd(key, t, SecureRandom.uuid)
+      backend.add_to_weighted_set(key, t, SecureRandom.hex(10))
       # just count how many errors are left in the set
-      redis.zcard(key)
+      backend.count(key)
     end
-    return pipeline.last # return the count
   end
 
   def should_open?(error_count)

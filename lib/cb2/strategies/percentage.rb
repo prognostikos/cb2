@@ -1,3 +1,5 @@
+require "cb2/strategies/base"
+
 class CB2::Percentage < CB2::RollingWindow
   # keep a rolling window of all calls too
   def count

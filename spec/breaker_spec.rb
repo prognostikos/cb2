@@ -26,7 +26,7 @@ describe CB2::Breaker do
     end
 
     it "handles Redis errors, just consider the circuit closed" do
-      stub(breaker.strategy).open? { raise Redis::BaseError }
+      stub(breaker.strategy).open? { raise CB2::Backends::BackendError }
       refute breaker.open?
     end
   end

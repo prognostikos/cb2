@@ -5,8 +5,11 @@ Bundler.setup
 require "timecop"
 require "cb2"
 
+require 'redis'
+
 # establish a Redis connection to the default server (localhost:6379)
-Redis.new
+require 'cb2/backends/redis'
+CB2.backend = CB2::Backends::Redis.new(:redis => Redis.new)
 
 RSpec.configure do |config|
   config.expect_with :minitest

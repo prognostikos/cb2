@@ -12,11 +12,11 @@ class CB2::Breaker
     end
 
     begin
-      process_count
+      strategy.process(:count)
       ret = yield
-      process_success
+      strategy.process(:success)
     rescue => e
-      process_error
+      strategy.process(:error)
       raise e
     end
 
@@ -25,39 +25,25 @@ class CB2::Breaker
 
   def open?
     strategy.open?
-  rescue Redis::BaseError
+  rescue CB2::Backends::BackendError
     false
   end
 
-  def process_count
-    strategy.count if strategy.respond_to?(:count)
-  rescue Redis::BaseError
-  end
+  private
+    def initialize_strategy(options)
+      strategy_options = options.dup.merge(:service => self.service)
 
-  def process_success
-    strategy.success if strategy.respond_to?(:success)
-  rescue Redis::BaseError
-  end
+      if options[:strategy].respond_to?(:open?)
+        return options[:strategy].new(strategy_options)
+      end
 
-  def process_error
-    strategy.error if strategy.respond_to?(:error)
-  rescue Redis::BaseError
-  end
-
-  def initialize_strategy(options)
-    strategy_options = options.dup.merge(service: self.service)
-
-    if options[:strategy].respond_to?(:open?)
-      return options[:strategy].new(strategy_options)
+      case options[:strategy].to_s
+      when "", "percentage"
+        CB2::Percentage.new(strategy_options)
+      when "rolling_window"
+        CB2::RollingWindow.new(strategy_options)
+      when "stub"
+        CB2::Stub.new(strategy_options)
+      end
     end
-
-    case options[:strategy].to_s
-    when "", "percentage"
-      CB2::Percentage.new(strategy_options)
-    when "rolling_window"
-      CB2::RollingWindow.new(strategy_options)
-    when "stub"
-      CB2::Stub.new(strategy_options)
-    end
-  end
 end
