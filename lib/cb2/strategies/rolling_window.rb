@@ -8,7 +8,7 @@ class CB2::RollingWindow < CB2::Strategies::Base
     @duration       = options.fetch(:duration)
     @threshold      = options.fetch(:threshold)
     @reenable_after = options.fetch(:reenable_after)
-    @backend          = options[:backend] || CB2.backend
+    @backend        = options[:backend] || CB2.backend
   end
 
   def open?
