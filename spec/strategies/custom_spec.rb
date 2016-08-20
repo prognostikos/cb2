@@ -1,10 +1,17 @@
 require "spec_helper"
 
-class CustomStrategy < CB2::Percentage
+class CustomStrategy
+  attr_accessor :initialized
 
+  def initialize(options)
+    @initialized = true
+  end
+
+  def open?
+  end
 end
 
-describe CB2::Percentage do
+describe CB2::Breaker do
   let(:breaker) do
 
   end
@@ -16,7 +23,8 @@ describe CB2::Percentage do
           duration:  60,
           threshold: 10,
           reenable_after: 600)
-      assert breaker.strategy
+      assert breaker.strategy.is_a?(CustomStrategy)
+      assert breaker.strategy.initialized
     end
   end
 end
