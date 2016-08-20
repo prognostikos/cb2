@@ -47,7 +47,7 @@ class CB2::Breaker
   def initialize_strategy(options)
     strategy_options = options.dup.merge(service: self.service)
 
-    if options[:strategy].respond_to?(:open?)
+    if options[:strategy].is_a?(Class) && options[:strategy].method_defined?(:open?)
       return options[:strategy].new(strategy_options)
     end
 
