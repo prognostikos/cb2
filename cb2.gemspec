@@ -2,6 +2,7 @@ Gem::Specification.new do |s|
   s.name = "cb2"
   s.email = "pedrobelo@gmail.com"
   s.version = "0.0.3"
+  s.license = "MIT"
   s.summary = "Circuit breaker"
   s.description = "Implementation of the circuit breaker pattern in Ruby"
   s.authors = ["Pedro Belo"]
