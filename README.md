@@ -45,6 +45,12 @@ rescue CB2::BreakerOpen
 end
 ```
 
+### Configuration
+
+You can provide a `CB2_PREFIX` environment variable to prefix the redis key used by your application.
+
+This prevents conflicts in case multiple applications using CB2 share the same Redis backend
+
 ### Circuit breaker stub
 
 CB2 can also run as a stub. Use it to aid testing, simulations and gradual rollouts:
@@ -61,4 +67,4 @@ This might be the only percent-based breaker in Ruby so far. For count-based bre
 
 ## Meta
 
-Created by Pedro Belo.
+Created by Pedro Belo, enhanced by Westfield Digital

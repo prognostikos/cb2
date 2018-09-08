@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class CB2::RollingWindow
   attr_accessor :service, :duration, :threshold, :reenable_after, :redis
 
@@ -47,8 +49,10 @@ class CB2::RollingWindow
 
   # generate a key to use in redis
   def key(id=nil)
+    prefix = ENV.fetch("CB2_PREFIX", "")
+    prefix = "#{prefix}-" if prefix != ""
     postfix = id ? "-#{id}" : ""
-    "cb2-#{service}#{postfix}"
+    "#{prefix}cb2-#{service}#{postfix}"
   end
 
   protected

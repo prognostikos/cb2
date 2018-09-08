@@ -11,6 +11,17 @@ describe CB2::RollingWindow do
 
   let(:strategy) { breaker.strategy }
 
+  describe 'key' do
+    it 'creates a default key' do
+      assert strategy.key == "cb2-default"
+    end
+
+    it 'creates a key with prefix' do
+      stub(ENV).fetch {'test-prefix'}
+      assert strategy.key == "test-prefix-cb2-default"
+    end
+  end
+
   describe "#open?" do
     it "starts closed" do
       refute strategy.open?
@@ -51,7 +62,7 @@ describe CB2::RollingWindow do
     it "resets the counter so half open breakers go back to closed" do
       redis.set(strategy.key, Time.now.to_i - 601)
       strategy.success
-      assert_equal nil, redis.get(strategy.key)
+      assert_nil redis.get(strategy.key)
     end
   end
 
