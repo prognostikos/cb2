@@ -1,8 +1,5 @@
 # CB2
 
-[![Gem version](http://img.shields.io/gem/v/cb2.svg)](https://rubygems.org/gems/cb2)
-[![Build Status](https://travis-ci.org/pedro/cb2.svg?branch=master)](https://travis-ci.org/pedro/cb2)
-
 Implementation of the [circuit breaker pattern](http://martinfowler.com/bliki/CircuitBreaker.html) in Ruby, backed by Redis.
 
 Setup circuit breakers wrapping external service calls, be it HTTP, TCP, etc. When a service becomes unavailable the circuit breaker will open and quickly refuse any additional requests to it. After a specific window the breaker closes again, allowing calls to go through.
