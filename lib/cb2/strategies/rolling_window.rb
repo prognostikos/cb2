@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class CB2::RollingWindow
   attr_accessor :service, :duration, :threshold, :reenable_after, :redis
 
