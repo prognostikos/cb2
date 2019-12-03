@@ -15,4 +15,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rr",      "~> 1.1"
   s.add_development_dependency "rspec",   "~> 3.1"
   s.add_development_dependency "timecop", "~> 0.7"
+  s.add_development_dependency "minitest", "~> 5.13.0"
 end
