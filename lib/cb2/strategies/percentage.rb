@@ -11,6 +11,6 @@ class CB2::Percentage < CB2::RollingWindow
     return false if @current_count < 5
 
     error_perc = error_count * 100 / @current_count.to_f
-    return error_perc >= threshold
+    error_perc >= threshold
   end
 end

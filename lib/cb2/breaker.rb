@@ -20,7 +20,7 @@ class CB2::Breaker
       raise e
     end
 
-    return ret
+    ret
   end
 
   def open?
