@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.summary = "Circuit breaker"
   s.description = "Implementation of the circuit breaker pattern in Ruby"
   s.authors = ["Pedro Belo"]
-  s.homepage = "http://github.com/pedro/cb2"
+  s.homepage = "http://github.com/Codefied/cb2"
 
   s.files = Dir["lib/**/*.rb"] + Dir["Gemfile*"]
   s.require_paths = ["lib"]
