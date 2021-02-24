@@ -2,14 +2,15 @@ PATH
   remote: .
   specs:
     cb2 (0.0.3)
-      redis (~> 3.1)
+      redis (~> 4.0, >= 3.1)
 
 GEM
   remote: http://rubygems.org/
   specs:
     diff-lcs (1.2.5)
+    minitest (5.13.0)
     rake (10.3.2)
-    redis (3.2.0)
+    redis (4.2.5)
     rr (1.1.2)
     rspec (3.1.0)
       rspec-core (~> 3.1.0)
@@ -30,7 +31,11 @@ PLATFORMS
 
 DEPENDENCIES
   cb2!
+  minitest (~> 5.13.0)
   rake (> 0)
   rr (~> 1.1)
   rspec (~> 3.1)
   timecop (~> 0.7)
+
+BUNDLED WITH
+   1.17.3

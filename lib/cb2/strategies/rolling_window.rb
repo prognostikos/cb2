@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class CB2::RollingWindow
   attr_accessor :service, :duration, :threshold, :reenable_after, :redis
 
@@ -42,7 +44,7 @@ class CB2::RollingWindow
 
   def trip!
     @last_open = Time.now.to_i
-    redis.set(key, @last_open)
+    redis.set(key, @last_open.to_s)
   end
 
   # generate a key to use in redis
@@ -57,7 +59,7 @@ class CB2::RollingWindow
     t   = Time.now.to_i
     pipeline = redis.pipelined do
       # keep the sorted set clean
-      redis.zremrangebyscore(key, "-inf", t - duration)
+      redis.zremrangebyscore(key, "-inf", (t - duration).to_s)
       # add as a random uuid because sorted sets won't take duplicate items:
       redis.zadd(key, t, SecureRandom.uuid)
       # just count how many errors are left in the set
