@@ -17,7 +17,7 @@ describe CB2::RollingWindow do
     end
 
     it 'creates a key with prefix' do
-      stub(ENV).fetch {'test-prefix'}
+      allow(ENV).to receive(:fetch).and_return('test-prefix')
       assert strategy.key == "test-prefix-cb2-default"
     end
   end

@@ -1,6 +1,7 @@
 require "spec_helper"
 
 describe CB2::Breaker do
+  let(:breaker_stratagy) { double("Breaker Stratagy") } 
   let(:breaker) do
     CB2::Breaker.new(
       strategy: :stub,
@@ -26,7 +27,8 @@ describe CB2::Breaker do
     end
 
     it "handles Redis errors, just consider the circuit closed" do
-      stub(breaker.strategy).open? { raise Redis::BaseError }
+      allow_any_instance_of(CB2::Breaker).to receive(:strategy).and_return(breaker_stratagy)
+      allow(breaker_stratagy).to receive(:open?).and_raise(Redis::BaseError)
       refute breaker.open?
     end
   end
