@@ -2,8 +2,7 @@ services:
   - redis-server
 language: ruby
 rvm:
-  - 2.1.5
-  - 1.9.3
+  - 2.7.4
 cache: bundler
 script: bundle exec rake
 sudo: false

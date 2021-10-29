@@ -10,10 +10,11 @@ Gem::Specification.new do |s|
   s.files = Dir["lib/**/*.rb"] + Dir["Gemfile*"]
   s.require_paths = ["lib"]
 
-  s.add_dependency "redis", "~> 3.1"
-  s.add_development_dependency "rake",    "> 0"
-  s.add_development_dependency "rr",      "~> 1.1"
-  s.add_development_dependency "rspec",   "~> 3.1"
-  s.add_development_dependency "minitest", "~>5.11"
-  s.add_development_dependency "timecop", "~> 0.7"
+  s.required_ruby_version = '~> 2.7.4'
+
+  s.add_dependency "redis", "~> 4.5"
+  s.add_development_dependency "rake"
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "minitest"
+  s.add_development_dependency "timecop"
 end
