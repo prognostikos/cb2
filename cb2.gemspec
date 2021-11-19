@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = "cb2"
   s.email = "pedrobelo@gmail.com"
-  s.version = "0.1.0"
+  s.version = "0.2.0"
   s.summary = "Circuit breaker"
   s.description = "Implementation of the circuit breaker pattern in Ruby"
   s.authors = ["Pedro Belo"]
@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.add_dependency "redis", ">= 3.1", "< 5"
   s.add_development_dependency "rake",    "> 0"
   s.add_development_dependency "rr",      "~> 1.1"
-  s.add_development_dependency "rspec",   "~> 3.1"
+  s.add_development_dependency "rspec",   "~> 3.10"
   s.add_development_dependency "timecop", "~> 0.7"
   s.add_development_dependency "test-unit"
   s.add_development_dependency "minitest"
