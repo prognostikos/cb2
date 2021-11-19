@@ -81,12 +81,26 @@ describe CB2::RollingWindow do
   end
 
   describe "#reset_all!" do
-    it "deletes the keys" do
-      5.times { strategy.error }
-      strategy.reset_all!
-      assert_equal false, redis.exists(strategy.key)
-      assert_equal false, redis.exists(strategy.key('error'))
-      assert_equal false, redis.exists(strategy.key('success'))
+    shared_examples_for "reset_all" do
+      it "deletes the keys" do
+        5.times { strategy.error }
+        strategy.reset_all!
+        assert_equal delete_val, redis.exists(strategy.key)
+        assert_equal delete_val, redis.exists(strategy.key('error'))
+        assert_equal delete_val, redis.exists(strategy.key('success'))
+      end
+    end
+
+    if Redis::VERSION.match /\A[123]\./ then
+      context "for Redis < 4.0" do
+        let(:delete_val) { false }
+        it_behaves_like "reset_all"
+      end
+    else
+      context "for Redis >= 4.0" do
+        let(:delete_val) { 0 }
+        it_behaves_like "reset_all"
+      end
     end
   end
 end
