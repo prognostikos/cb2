@@ -4,6 +4,11 @@ class CB2::Percentage < CB2::RollingWindow
     @current_count = increment_rolling_window(key("count"))
   end
 
+  def reset_all!
+    @current_count = redis.del(key('count'))
+    super
+  end
+
   private
 
   def should_open?(error_count)
