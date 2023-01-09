@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.files = Dir["lib/**/*.rb"] + Dir["Gemfile*"]
   s.require_paths = ["lib"]
 
-  s.add_dependency "redis", ">= 3.1", "~> 4.0"
+  s.add_dependency "redis", ">= 3.1"
   s.add_development_dependency "rake",    "> 0"
   s.add_development_dependency "rr",      "~> 1.1"
   s.add_development_dependency "rspec",   "~> 3.1"

@@ -2,15 +2,19 @@ PATH
   remote: .
   specs:
     cb2 (0.0.4)
-      redis (~> 4.0, >= 3.1)
+      redis (>= 3.1)
 
 GEM
   remote: http://rubygems.org/
   specs:
+    connection_pool (2.3.0)
     diff-lcs (1.2.5)
     minitest (5.13.0)
     rake (10.3.2)
-    redis (4.2.5)
+    redis (5.0.5)
+      redis-client (>= 0.9.0)
+    redis-client (0.11.2)
+      connection_pool
     rr (1.1.2)
     rspec (3.1.0)
       rspec-core (~> 3.1.0)

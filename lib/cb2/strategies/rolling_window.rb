@@ -8,7 +8,7 @@ class CB2::RollingWindow
     @duration       = options.fetch(:duration)
     @threshold      = options.fetch(:threshold)
     @reenable_after = options.fetch(:reenable_after)
-    @redis          = options[:redis] || Redis.current
+    @redis          = options[:redis] || Redis.new
   end
 
   def open?
@@ -57,13 +57,13 @@ class CB2::RollingWindow
 
   def increment_rolling_window(key)
     t   = Time.now.to_i
-    pipeline = redis.pipelined do
+    pipeline = redis.pipelined do |pipeline|
       # keep the sorted set clean
-      redis.zremrangebyscore(key, "-inf", (t - duration).to_s)
+      pipeline.zremrangebyscore(key, "-inf", (t - duration).to_s)
       # add as a random uuid because sorted sets won't take duplicate items:
-      redis.zadd(key, t, SecureRandom.uuid)
+      pipeline.zadd(key, t, SecureRandom.uuid)
       # just count how many errors are left in the set
-      redis.zcard(key)
+      pipeline.zcard(key)
     end
     return pipeline.last # return the count
   end
