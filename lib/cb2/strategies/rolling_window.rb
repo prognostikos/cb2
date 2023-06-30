@@ -54,16 +54,17 @@ class CB2::RollingWindow
   protected
 
   def increment_rolling_window(key)
-    t   = Time.now.to_i
-    pipeline = redis.pipelined do
+    t = Time.now.to_i
+    result = redis.pipelined do |pipeline|
       # keep the sorted set clean
-      redis.zremrangebyscore(key, "-inf", t - duration)
+      pipeline.zremrangebyscore(key, "-inf", t - duration)
       # add as a random uuid because sorted sets won't take duplicate items:
-      redis.zadd(key, t, SecureRandom.uuid)
+      pipeline.zadd(key, t, SecureRandom.uuid)
       # just count how many errors are left in the set
-      redis.zcard(key)
+      pipeline.zcard(key)
     end
-    return pipeline.last # return the count
+
+    result.last # return the count
   end
 
   def should_open?(error_count)
