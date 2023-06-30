@@ -1,4 +1,5 @@
 require "redis"
+require "securerandom"
 
 module CB2
 end
