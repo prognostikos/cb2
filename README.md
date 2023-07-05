@@ -1,7 +1,7 @@
 # CB2
 
 [![Gem version](http://img.shields.io/gem/v/cb2.svg)](https://rubygems.org/gems/cb2)
-[![Build Status](https://travis-ci.org/pedro/cb2.svg?branch=master)](https://travis-ci.org/pedro/cb2)
+[![Build Status](https://github.com/prognostikos/cb2/actions/workflows/verify.yml/badge.svg)](https://github.com/prognostikos/cb2/actions)
 
 Implementation of the [circuit breaker pattern](http://martinfowler.com/bliki/CircuitBreaker.html) in Ruby, backed by Redis.
 
