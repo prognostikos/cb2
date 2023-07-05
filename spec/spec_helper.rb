@@ -17,6 +17,6 @@ RSpec.configure do |config|
   end
 
   def redis
-    @redis ||= Redis.current
+    @redis ||= Redis.new
   end
 end
