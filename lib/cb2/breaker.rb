@@ -8,7 +8,7 @@ class CB2::Breaker
 
   def run
     if open?
-      raise CB2::BreakerOpen
+      raise CB2::BreakerOpen.new("#{service} breaker open")
     end
 
     begin

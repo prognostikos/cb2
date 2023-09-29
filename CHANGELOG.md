@@ -5,6 +5,7 @@
 ### Added
 
 - CI using GitHub Actions for non-eol Ruby versions
+- add an exception message to BreakerOpen exception with the service name
 
 ### Fixed
 
