@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     cb2 (0.2.0)
-      redis (>= 3.1, < 5)
+      redis (>= 3.1, < 6)
 
 GEM
   remote: http://rubygems.org/
@@ -43,4 +43,4 @@ DEPENDENCIES
   timecop (~> 0.7)
 
 BUNDLED WITH
-   2.2.30
+   2.4.21
