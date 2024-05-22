@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## 0.0.4
 
 ### Added
 
@@ -17,6 +17,3 @@
 
 - Upgraded development dependencies
 - Upgraded to latest 5.x Redis gem
-
-[unreleased]:
-https://github.com/prognostikos/cb2/compare/02b79a4...HEAD
