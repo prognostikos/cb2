@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     cb2 (0.0.4)
-      redis (~> 5, >= 4)
+      redis (>= 4)
 
 GEM
   remote: http://rubygems.org/
