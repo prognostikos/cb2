@@ -17,4 +17,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec", "~> 3.1"
   s.add_development_dependency "minitest", "> 0"
   s.add_development_dependency "timecop", "> 0"
+  s.add_development_dependency "mutex_m", "> 0"
 end
