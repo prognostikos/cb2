@@ -23,6 +23,7 @@ jobs:
     strategy:
       matrix:
         ruby-version: ['3.2', '3.3', '3.4']
+        redis-version: ['4', '5']
 
     steps:
     - uses: actions/checkout@v3
@@ -30,6 +31,12 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true
+        bundler-cache: false
+    - name: Install dependencies
+      run: bundle install
+      env:
+        BUNDLE_GEMFILE: Gemfile.redis${{ matrix.redis-version }}
     - name: Run tests
       run: bundle exec rspec
+      env:
+        BUNDLE_GEMFILE: Gemfile.redis${{ matrix.redis-version }}

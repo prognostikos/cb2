@@ -1,0 +1,50 @@
+PATH
+  remote: .
+  specs:
+    cb2 (0.0.4)
+      redis (>= 4)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    connection_pool (2.5.3)
+    diff-lcs (1.6.2)
+    minitest (5.25.5)
+    mutex_m (0.3.0)
+    rake (13.2.1)
+    redis (5.4.0)
+      redis-client (>= 0.22.0)
+    redis-client (0.24.0)
+      connection_pool
+    rr (1.2.1)
+    rspec (3.13.1)
+      rspec-core (~> 3.13.0)
+      rspec-expectations (~> 3.13.0)
+      rspec-mocks (~> 3.13.0)
+    rspec-core (3.13.4)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-support (3.13.4)
+    timecop (0.9.10)
+
+PLATFORMS
+  arm64-darwin-24
+  ruby
+
+DEPENDENCIES
+  cb2!
+  minitest (> 0)
+  mutex_m (> 0)
+  rake (> 0)
+  redis (~> 5.0)
+  rr (~> 1.1)
+  rspec (~> 3.1)
+  timecop (> 0)
+
+BUNDLED WITH
+   2.5.23
