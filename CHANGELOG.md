@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.0
+
+### Added
+
+- support for 4.x version of redis gem
+
+### Removed
+
+- testing on non-supported rubies
+
 ## 0.0.4
 
 ### Added
