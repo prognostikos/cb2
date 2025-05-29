@@ -1,20 +1,20 @@
 PATH
   remote: .
   specs:
-    cb2 (0.0.4)
-      redis (>= 4)
+    cb2 (1.0.0)
+      redis (>= 4, < 6)
 
 GEM
   remote: http://rubygems.org/
   specs:
-    connection_pool (2.4.1)
+    connection_pool (2.5.3)
     diff-lcs (1.5.0)
     minitest (5.18.1)
     mutex_m (0.3.0)
     rake (13.0.6)
-    redis (5.2.0)
+    redis (5.4.0)
       redis-client (>= 0.22.0)
-    redis-client (0.22.2)
+    redis-client (0.24.0)
       connection_pool
     rr (1.1.2)
     rspec (3.12.0)
@@ -37,12 +37,12 @@ PLATFORMS
 
 DEPENDENCIES
   cb2!
-  minitest (> 0)
-  mutex_m (> 0)
-  rake (> 0)
+  minitest (~> 5.0)
+  mutex_m (~> 0.2)
+  rake (~> 13.0)
   rr (~> 1.1)
   rspec (~> 3.1)
-  timecop (> 0)
+  timecop (~> 0.9)
 
 BUNDLED WITH
    2.3.26

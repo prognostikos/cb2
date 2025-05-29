@@ -11,11 +11,13 @@ Gem::Specification.new do |s|
   s.files = Dir["lib/**/*.rb"] + Dir["Gemfile*"] + ["README.md"]
   s.require_paths = ["lib"]
 
-  s.add_dependency "redis", ">= 4"
-  s.add_development_dependency "rake", "> 0"
+  s.required_ruby_version = ">= 3.2"
+
+  s.add_dependency "redis", ">= 4", "< 6"
+  s.add_development_dependency "rake", "~> 13.0"
   s.add_development_dependency "rr", "~> 1.1"
   s.add_development_dependency "rspec", "~> 3.1"
-  s.add_development_dependency "minitest", "> 0"
-  s.add_development_dependency "timecop", "> 0"
-  s.add_development_dependency "mutex_m", "> 0"
+  s.add_development_dependency "minitest", "~> 5.0"
+  s.add_development_dependency "timecop", "~> 0.9"
+  s.add_development_dependency "mutex_m", "~> 0.2"
 end

@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+
+- fix gem build warnings by adding version constraints and a required_ruby_version
+
 ## 1.0.0
 
 ### Added
