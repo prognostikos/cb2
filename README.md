@@ -59,6 +59,15 @@ breaker = CB2::Breaker.new(
 
 This might be the only percent-based breaker in Ruby so far. For count-based breakers (eg: open after X exceptions) you can also check [breaker_box](https://github.com/sittercity/breaker_box) and [circuit_breaker](https://github.com/wsargent/circuit_breaker).
 
+## Development
+
+Running the tests locally requires a running `redis` service listening on port `6379`. If the service is not running locally, use a `container`:
+
+```
+docker run -p 6379:6379 -d redis
+bundle exec rspec
+```
+
 ## Meta
 
 Created by Pedro Belo.
